@@ -12,10 +12,6 @@ const Categories = () => {
 		"Закрытые",
 	];
 
-	function handleCategory(index) {
-		setSelectedCatogory(index);
-	}
-
 	function activeIndex(index) {
 		return selectedCatogory === index ? "active" : "";
 	}
@@ -26,7 +22,8 @@ const Categories = () => {
 				{categories.map((category, index) => {
 					return (
 						<li
-							onClick={() => handleCategory(index)}
+							key={index}
+							onClick={() => setSelectedCatogory(index)}
 							className={activeIndex(index)}
 						>
 							{category}
