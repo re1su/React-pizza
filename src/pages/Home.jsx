@@ -36,7 +36,7 @@ const Home = ({ inputValue }) => {
 				setIsLoading(false);
 			});
 		window.scrollTo(0, 0);
-	}, [selectedCategory, selectedPopup, inputValue, currentPage]);
+	}, [selectedCategory, selectedPopup, inputValue, currentPage, search]);
 
 	return (
 		<div className="container">
