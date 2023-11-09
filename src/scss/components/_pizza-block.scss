@@ -12,6 +12,11 @@
 
   &__image {
     width: 260px;
+    transition: all .2s ease;
+    &:hover {
+      transform: translateY(3px);
+    }
+
   }
 
   &__title {
@@ -23,7 +28,7 @@
 
   &__selector {
     display: flex;
-    background-color: #f3f3f3;
+    background-color: #ededed;
     border-radius: 10px;
     flex-direction: column;
     padding: 6px;

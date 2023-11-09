@@ -15,6 +15,7 @@ const Search = ({ setInputValue, inputValue }) => {
 				alt=""
 			/>}
 			<input
+				autoFocus
 				value={inputValue}
 				onChange={(e) => setInputValue(e.target.value)}
 				className={style.search}
