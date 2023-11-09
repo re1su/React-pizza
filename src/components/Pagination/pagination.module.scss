@@ -1,0 +1,44 @@
+.root {
+  display: flex;
+  column-gap: 10px;
+
+  li {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #fe5f1e;
+    border-radius: 50%;
+
+    &:hover {
+      background-color: #fe5f1e;
+
+      a {
+        color: #fff;
+      }
+      transition: background-color .1s ease-in;
+    }
+
+    &:active {
+      transform: translateY(1px);
+      transition: transform .07s ease-in;
+    }
+
+    a {
+      text-align: center;
+      line-height: 40px;
+      width: 40px;
+      height: 40px;
+      color: #282828;
+    }
+  }
+
+  :global {
+    .selected {
+      background-color: #fe5f1e;
+      a {
+        color: #fff;
+      }
+  }
+  }
+}

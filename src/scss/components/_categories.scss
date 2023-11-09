@@ -28,4 +28,12 @@
       }
     }
   }
+
+
+  @media (max-width: 1000px) {
+    padding: 20px;
+    width: 100%;
+    overflow: auto;
+  }
+
 }

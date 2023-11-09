@@ -1,0 +1,47 @@
+.root {
+  position: relative;
+  width: 400px;
+  height: 40px;
+  @media (max-width: 600px) {
+    width: 300px;
+  }
+}
+
+.search {
+  border: 1px solid rgba(0, 0, 0, .15);
+  color: #000;
+  font-size: 1rem;
+  background-color: #fff;
+  width: 100%;
+  padding: 8px 10px;
+  padding-right: 40px;
+  border-radius: 8px;
+}
+
+.button {
+  position: absolute;
+  cursor: pointer;
+  background-color: #fff;
+  width: 30px;
+  height: 90%;
+  margin-top: 2px;
+  right: 5px;
+  border: none;
+  border-radius: 50%;
+}
+
+.icon {
+  font-size: 5px;
+}
+
+.clear {
+  opacity: .6;
+  position: absolute;
+  left: -35px;
+  top: 7px;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 1;
+  }
+}
