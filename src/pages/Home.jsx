@@ -4,13 +4,17 @@ import Sort from "../components/Sort";
 import PizzaBlock from "../components/PizzaBlock/PizzaBlock";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import Pagination from "../components/Pagination";
-
+import { useDispatch, useSelector } from "react-redux";
+import { setCategoryId } from "../redux/slices/filterSlice";
 
 const Home = ({ inputValue }) => {
 	const [pizzaData, setPizzaData] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
-	const [currentPage, setCurrentPage] = useState(1)
-	const [selectedCategory, setSelectedCatogory] = useState(0);
+	const [currentPage, setCurrentPage] = useState(1);
+	const dispatch = useDispatch()
+
+
+
 	const [selectedPopup, setSelectedPopup] = useState({
 		name: "популярности",
 		sort: "rating",
@@ -21,10 +25,19 @@ const Home = ({ inputValue }) => {
 	const skeletons = [...new Array(8)].map((_, index) => (
 		<Skeleton key={index} />
 	));
+
+
+
 	const search = inputValue ? `&search=${inputValue}` : "";
+	const selectedCategory = useSelector((state) => state.filter.selectedCategoryId);
+
+	const setSelectedCatogory = (id) => {
+		dispatch(setCategoryId(id));
+	};
 
 	useEffect(() => {
 		setIsLoading(true);
+
 		fetch(
 			`https://654b48cc5b38a59f28eecced.mockapi.io/items?page=${currentPage}&limit=8&${
 				selectedCategory > 0 ? `category=${selectedCategory}` : ""
@@ -35,6 +48,7 @@ const Home = ({ inputValue }) => {
 				setPizzaData(data);
 				setIsLoading(false);
 			});
+
 		window.scrollTo(0, 0);
 	}, [selectedCategory, selectedPopup, inputValue, currentPage, search]);
 
@@ -52,7 +66,7 @@ const Home = ({ inputValue }) => {
 			</div>
 			<h2 className="content__title">Все пиццы</h2>
 			<div className="content__items">{isLoading ? skeletons : pizzas}</div>
-			<Pagination onChangePage={num => setCurrentPage(num)} />
+			<Pagination onChangePage={(num) => setCurrentPage(num)} />
 		</div>
 	);
 };

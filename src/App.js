@@ -10,9 +10,11 @@ import { Route, Routes, } from "react-router-dom";
 export const SearchContext = createContext()
 
 function App() {
+
   const [inputValue, setInputValue] = useState('')
 
   return (
+    
     <SearchContext.Provider value={{ inputValue, setInputValue }}>
       <div className="wrapper">
         <Header />
