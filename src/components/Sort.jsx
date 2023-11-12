@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import arrowTop from "../assets/img/arrow-top.svg";
 import arrowBottom from "../assets/img/arrow-bottom.svg"
+import { useDispatch, useSelector } from "react-redux";
+import { setSort } from "../redux/slices/filterSlice";
 
-const Sort = ({ value, onClickSort }) => {
+const Sort = () => {
+	const dispatch = useDispatch()
+	const sort = useSelector(state => state.filter.selectedPopupSort)
 	const [isVisible, setIsVisible] = useState(false);
 	const listPopup = [
 		{ name: "популярности", sort: "rating" },
@@ -11,11 +15,11 @@ const Sort = ({ value, onClickSort }) => {
 	];
 
 	function handlerSelected(object) {
-		return value.sort === object.sort ? "active" : "";
+		return sort.sort === object.sort ? "active" : "";
 	}
 
 	function onSelectedPopup(sort) {
-		onClickSort(sort);
+		dispatch(setSort(sort));
 		setIsVisible(false);
 	}
 
@@ -25,7 +29,7 @@ const Sort = ({ value, onClickSort }) => {
 				<img className="img" src={arrowTop} alt="arrowTop" />
 				<img className="img" src={arrowBottom} alt="arrowBottom" />
 				<b>Сортировка по:</b>
-				<span onClick={() => setIsVisible((prev) => !prev)}>{value.name}</span>
+				<span onClick={() => setIsVisible((prev) => !prev)}>{sort.name}</span>
 			</div>
 			{isVisible && (
 				<div className="sort__popup">

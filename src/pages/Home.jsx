@@ -11,27 +11,14 @@ const Home = ({ inputValue }) => {
 	const [pizzaData, setPizzaData] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [currentPage, setCurrentPage] = useState(1);
-	const dispatch = useDispatch()
+	const dispatch = useDispatch();
+	const { selectedCategoryId, selectedPopupSort } = useSelector((state) => state.filter);
 
-
-
-	const [selectedPopup, setSelectedPopup] = useState({
-		name: "популярности",
-		sort: "rating",
-	});
-	const pizzas = pizzaData.map((pizza) => (
-		<PizzaBlock key={pizza.id} {...pizza} />
-	));
-	const skeletons = [...new Array(8)].map((_, index) => (
-		<Skeleton key={index} />
-	));
-
-
-
+	const pizzas = pizzaData.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
+	const skeletons = [...new Array(8)].map((_, index) => <Skeleton key={index} />);
 	const search = inputValue ? `&search=${inputValue}` : "";
-	const selectedCategory = useSelector((state) => state.filter.selectedCategoryId);
 
-	const setSelectedCatogory = (id) => {
+	const setSelectedCategory = (id) => {
 		dispatch(setCategoryId(id));
 	};
 
@@ -40,8 +27,8 @@ const Home = ({ inputValue }) => {
 
 		fetch(
 			`https://654b48cc5b38a59f28eecced.mockapi.io/items?page=${currentPage}&limit=8&${
-				selectedCategory > 0 ? `category=${selectedCategory}` : ""
-			}&sortBy=${selectedPopup.sort}&order=asc${search}`
+				selectedCategoryId > 0 ? `category=${selectedCategoryId}` : ""
+			}&sortBy=${selectedPopupSort.sort}&order=asc${search}`
 		)
 			.then((response) => response.json())
 			.then((data) => {
@@ -50,19 +37,16 @@ const Home = ({ inputValue }) => {
 			});
 
 		window.scrollTo(0, 0);
-	}, [selectedCategory, selectedPopup, inputValue, currentPage, search]);
+	}, [selectedCategoryId, selectedPopupSort, inputValue, currentPage, search]);
 
 	return (
 		<div className="container">
 			<div className="content__top">
 				<Categories
-					value={selectedCategory}
-					onClickCategory={(index) => setSelectedCatogory(index)}
+					value={selectedCategoryId}
+					onClickCategory={(index) => setSelectedCategory(index)}
 				/>
-				<Sort
-					value={selectedPopup}
-					onClickSort={(sort) => setSelectedPopup(sort)}
-				/>
+				<Sort />
 			</div>
 			<h2 className="content__title">Все пиццы</h2>
 			<div className="content__items">{isLoading ? skeletons : pizzas}</div>
