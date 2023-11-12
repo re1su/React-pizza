@@ -6,6 +6,7 @@ import Skeleton from "../components/PizzaBlock/Skeleton";
 import Pagination from "../components/Pagination";
 import { useDispatch, useSelector } from "react-redux";
 import { setCategoryId } from "../redux/slices/filterSlice";
+import axios from "axios";
 
 const Home = ({ inputValue }) => {
 	const [pizzaData, setPizzaData] = useState([]);
@@ -14,9 +15,11 @@ const Home = ({ inputValue }) => {
 	const dispatch = useDispatch();
 	const { selectedCategoryId, selectedPopupSort } = useSelector((state) => state.filter);
 
+
 	const pizzas = pizzaData.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
 	const skeletons = [...new Array(8)].map((_, index) => <Skeleton key={index} />);
 	const search = inputValue ? `&search=${inputValue}` : "";
+
 
 	const setSelectedCategory = (id) => {
 		dispatch(setCategoryId(id));
@@ -25,16 +28,12 @@ const Home = ({ inputValue }) => {
 	useEffect(() => {
 		setIsLoading(true);
 
-		fetch(
-			`https://654b48cc5b38a59f28eecced.mockapi.io/items?page=${currentPage}&limit=8&${
-				selectedCategoryId > 0 ? `category=${selectedCategoryId}` : ""
-			}&sortBy=${selectedPopupSort.sort}&order=asc${search}`
-		)
-			.then((response) => response.json())
-			.then((data) => {
-				setPizzaData(data);
-				setIsLoading(false);
-			});
+		axios.get(`https://654b48cc5b38a59f28eecced.mockapi.io/items?page=${currentPage}&limit=8&${
+			selectedCategoryId > 0 ? `category=${selectedCategoryId}` : ""
+		}&sortBy=${selectedPopupSort.sort}&order=asc${search}`).then(response => {
+			setPizzaData(response.data)
+			setIsLoading(false);
+		})
 
 		window.scrollTo(0, 0);
 	}, [selectedCategoryId, selectedPopupSort, inputValue, currentPage, search]);

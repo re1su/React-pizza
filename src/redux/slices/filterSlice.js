@@ -4,7 +4,7 @@ const initialState = {
   selectedCategoryId: 0,
   selectedPopupSort:  {
 		name: "популярности",
-		sort: "rating",
+		sort: "rating"
 	}
 }
 
