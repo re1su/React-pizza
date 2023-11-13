@@ -5,15 +5,14 @@ import PizzaBlock from "../components/PizzaBlock/PizzaBlock";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import Pagination from "../components/Pagination";
 import { useDispatch, useSelector } from "react-redux";
-import { setCategoryId } from "../redux/slices/filterSlice";
+import { setCategoryId, setCurrentPage } from "../redux/slices/filterSlice";
 import axios from "axios";
 
 const Home = ({ inputValue }) => {
 	const [pizzaData, setPizzaData] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
-	const [currentPage, setCurrentPage] = useState(1);
 	const dispatch = useDispatch();
-	const { selectedCategoryId, selectedPopupSort } = useSelector((state) => state.filter);
+	const { selectedCategoryId, selectedPopupSort, currentPage } = useSelector((state) => state.filter);
 
 
 	const pizzas = pizzaData.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
@@ -24,6 +23,10 @@ const Home = ({ inputValue }) => {
 	const setSelectedCategory = (id) => {
 		dispatch(setCategoryId(id));
 	};
+
+	function onChangePage(num) {
+		dispatch(setCurrentPage(num))
+	}
 
 	useEffect(() => {
 		setIsLoading(true);
@@ -49,7 +52,7 @@ const Home = ({ inputValue }) => {
 			</div>
 			<h2 className="content__title">Все пиццы</h2>
 			<div className="content__items">{isLoading ? skeletons : pizzas}</div>
-			<Pagination onChangePage={(num) => setCurrentPage(num)} />
+			<Pagination currentPage={currentPage} onChangePage={onChangePage} />
 		</div>
 	);
 };

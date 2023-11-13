@@ -1,25 +1,49 @@
-import React, { useContext } from "react";
 import style from "./search.module.scss";
 import clear from "../../assets/img/clear.svg";
 import { SearchContext } from "../../App";
+import React, { useRef, useCallback, useContext, useState } from "react";
+import { debounce } from "lodash";
 
 const Search = () => {
-	const { inputValue, setInputValue } = useContext(SearchContext)
+	const [localValue, setLocalValue] = useState("");
+	const { setInputValue } = useContext(SearchContext);
+	const inputRef = useRef();
+
+	const updateSearchValue = useCallback(
+		debounce((str) => {
+			setInputValue(str);
+		}, 500),
+		[]
+	);
+
+	function onClickClear() {
+		setInputValue("");
+		setLocalValue("")
+		inputRef.current.focus()
+	}
+
+	function onChangeInput(e) {
+		setLocalValue(e.target.value);
+		updateSearchValue(e.target.value);
+	}
 
 	return (
 		<div className={style.root}>
-			{inputValue && <img
-				className={style.clear}
-				onClick={() => setInputValue("")}
-				width="25px"
-				height="25px"
-				src={clear}
-				alt=""
-			/>}
+			{localValue && (
+				<img
+					className={style.clear}
+					onClick={() => onClickClear()}
+					width="25px"
+					height="25px"
+					src={clear}
+					alt=""
+				/>
+			)}
 			<input
+				ref={inputRef}
 				autoFocus
-				value={inputValue}
-				onChange={(e) => setInputValue(e.target.value)}
+				value={localValue}
+				onChange={(e) => onChangeInput(e)}
 				className={style.search}
 				type="text"
 				placeholder="Название пиццы..."
