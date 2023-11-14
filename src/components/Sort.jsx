@@ -1,18 +1,22 @@
 import React, { useState } from "react";
 import arrowTop from "../assets/img/arrow-top.svg";
-import arrowBottom from "../assets/img/arrow-bottom.svg"
+import arrowBottom from "../assets/img/arrow-bottom.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { setSort } from "../redux/slices/filterSlice";
+import { useEffect } from "react";
+import { useRef } from "react";
+
+export const listPopup = [
+	{ name: "популярности", sort: "rating" },
+	{ name: "цене", sort: "price" },
+	{ name: "алфавиту", sort: "title" },
+];
 
 const Sort = () => {
-	const dispatch = useDispatch()
-	const sort = useSelector(state => state.filter.selectedPopupSort)
+	const dispatch = useDispatch();
+	const sort = useSelector((state) => state.filter.selectedPopupSort);
 	const [isVisible, setIsVisible] = useState(false);
-	const listPopup = [
-		{ name: "популярности", sort: "rating" },
-		{ name: "цене", sort: "price" },
-		{ name: "алфавиту", sort: "title" },
-	];
+	const sortRef = useRef()
 
 	function handlerSelected(object) {
 		return sort.sort === object.sort ? "active" : "";
@@ -23,8 +27,22 @@ const Sort = () => {
 		setIsVisible(false);
 	}
 
+	useEffect(() => {
+		const handleBodyClick = (e) => {
+			if (e.target.className) {
+				setIsVisible(false)
+			}
+		};
+
+		document.body.addEventListener("click", handleBodyClick);
+
+		return () => {
+			document.body.removeEventListener("click", handleBodyClick);
+		};
+	}, []);
+
 	return (
-		<div className="sort">
+		<div ref={sortRef} className="sort">
 			<div className="sort__label">
 				<img className="img" src={arrowTop} alt="arrowTop" />
 				<img className="img" src={arrowBottom} alt="arrowBottom" />
