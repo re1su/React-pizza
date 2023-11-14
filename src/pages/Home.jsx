@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Categories from "../components/Categories";
-import Sort from "../components/Sort";
+import Sort, { listPopup } from "../components/Sort";
 import PizzaBlock from "../components/PizzaBlock/PizzaBlock";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import Pagination from "../components/Pagination";
 import { useDispatch, useSelector } from "react-redux";
-import { setCategoryId, setCurrentPage } from "../redux/slices/filterSlice";
+import { setCategoryId, setCurrentPage, setFilters } from "../redux/slices/filterSlice";
 import axios from "axios";
 import qs from "qs";
 import { useNavigate } from "react-router";
 
 const Home = ({ inputValue }) => {
-	const navigate = useNavigate()
+	const navigate = useNavigate();
 	const [pizzaData, setPizzaData] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const dispatch = useDispatch();
@@ -33,9 +33,18 @@ const Home = ({ inputValue }) => {
 
 	useEffect(() => {
 		if (window.location.search) {
-			const params = qs.parse(window.location.search.substring(1))
+			const params = qs.parse(window.location.search.substring(1));
+			const sort = listPopup.find((obj) => obj.sort === params.sortProperty);
+
+			dispatch(
+				setFilters({
+					...params,
+					sort,
+				})
+			);
 		}
-	}, [])
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	useEffect(() => {
 		setIsLoading(true);
@@ -58,12 +67,11 @@ const Home = ({ inputValue }) => {
 		const queryString = qs.stringify({
 			sortProperty: selectedPopupSort.sort,
 			categoryId: selectedCategoryId,
-			currentPage
+			currentPage,
 		});
 
-
-		navigate(`?${queryString}`)
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		navigate(`?${queryString}`);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [selectedCategoryId, selectedPopupSort.sort, currentPage]);
 
 	return (
