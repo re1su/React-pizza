@@ -313,13 +313,14 @@ body {
   }
 
   &--empty {
-    margin: 0 auto;
+    margin: 100px auto;
     width: 560px;
     text-align: center;
 
     h2 {
-      font-size: 32px;
-      margin-bottom: 10px;
+      font-size: 42px;
+      font-weight: 700;
+      margin-bottom: 20px;
     }
 
     p {
