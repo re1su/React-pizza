@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { addItem, minusItem, removeItem } from "../redux/slices/cartSlice";
+import { addItem, minusItem } from "../redux/slices/cartSlice";
 
 const CartItem = ({ id, title, type, imageUrl, count, price, size }) => {
 	const dispatch = useDispatch();
@@ -12,10 +12,6 @@ const CartItem = ({ id, title, type, imageUrl, count, price, size }) => {
 	function onClickRemoveItemCount() {
 		dispatch(minusItem(id));
 	}
-
-  function onClickRemoveItem() {
-    dispatch()
-  }
 
 	return (
 		<div className="cart__item">

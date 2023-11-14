@@ -7,8 +7,11 @@ import Pagination from "../components/Pagination";
 import { useDispatch, useSelector } from "react-redux";
 import { setCategoryId, setCurrentPage } from "../redux/slices/filterSlice";
 import axios from "axios";
+import qs from "qs";
+import { useNavigate } from "react-router";
 
 const Home = ({ inputValue }) => {
+	const navigate = useNavigate()
 	const [pizzaData, setPizzaData] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const dispatch = useDispatch();
@@ -29,6 +32,12 @@ const Home = ({ inputValue }) => {
 	}
 
 	useEffect(() => {
+		if (window.location.search) {
+			const params = qs.parse(window.location.search.substring(1))
+		}
+	}, [])
+
+	useEffect(() => {
 		setIsLoading(true);
 
 		axios
@@ -44,6 +53,18 @@ const Home = ({ inputValue }) => {
 
 		window.scrollTo(0, 0);
 	}, [selectedCategoryId, selectedPopupSort.sort, currentPage, search]);
+
+	useEffect(() => {
+		const queryString = qs.stringify({
+			sortProperty: selectedPopupSort.sort,
+			categoryId: selectedCategoryId,
+			currentPage
+		});
+
+
+		navigate(`?${queryString}`)
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [selectedCategoryId, selectedPopupSort.sort, currentPage]);
 
 	return (
 		<div className="container">
