@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Categories from "../components/Categories";
-import Sort, { listPopup } from "../components/Sort";
+import Sort from "../components/Sort";
 import PizzaBlock from "../components/PizzaBlock/PizzaBlock";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import Pagination from "../components/Pagination";
 import { useDispatch, useSelector } from "react-redux";
-import { setCategoryId, setCurrentPage, setFilters } from "../redux/slices/filterSlice";
+import { setCategoryId, setCurrentPage } from "../redux/slices/filterSlice";
 import axios from "axios";
 
 const Home = ({ inputValue }) => {
@@ -44,7 +44,6 @@ const Home = ({ inputValue }) => {
 
 		window.scrollTo(0, 0);
 	}, [selectedCategoryId, selectedPopupSort.sort, currentPage, search]);
-
 
 	return (
 		<div className="container">
