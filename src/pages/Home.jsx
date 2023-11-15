@@ -15,6 +15,7 @@ const Home = ({ inputValue }) => {
 	const dispatch = useDispatch();
 	const [pizzaData, setPizzaData] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
+	const [isMounted, setIsMounted] = useState(false)
 	const [isSearch, setIsSearch] = useState(false);
 	const sortBy = useSelector((state) => state.filter.sortBy);
 	const pizzas = pizzaData.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
@@ -76,14 +77,17 @@ const Home = ({ inputValue }) => {
 	}, [selectedCategoryId, sortProperty, currentPage, search, sortBy]);
 
 	useEffect(() => {
-		const queryString = qs.stringify({
-			sortProperty: sortProperty,
-			categoryId: selectedCategoryId,
-			currentPage,
-		});
+		if (isMounted) {
+			const queryString = qs.stringify({
+				sortProperty: sortProperty,
+				categoryId: selectedCategoryId,
+				currentPage,
+			});
+	
+			navigate(`?${queryString}`);
+		}
 
-		navigate(`?${queryString}`);
-
+		setIsMounted(true)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [selectedCategoryId, sortProperty, currentPage]);
 
