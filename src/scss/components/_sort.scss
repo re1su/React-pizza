@@ -7,7 +7,18 @@
     align-items: center;
 
     .img {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
       margin-right: 5px;
+      
+      &:hover {
+        cursor: pointer;
+        background-image: linear-gradient(0deg, rgba(242, 201, 146, 0.1) 0%, #f1d2af 100%);
+      }
     }
 
     svg {
