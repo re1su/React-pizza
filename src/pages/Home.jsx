@@ -10,7 +10,7 @@ import qs from "qs";
 import { useNavigate } from "react-router";
 import { fetchPizza } from "../redux/slices/pizzaSlice";
 
-const Home = ({ inputValue }) => {
+const Home = () => {
 	const isSearch = useRef(false);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();

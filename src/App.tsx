@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import './scss/app.scss'
 import { Route, Routes, } from "react-router-dom";
+import React from 'react';
 
 function App() {
   return (
