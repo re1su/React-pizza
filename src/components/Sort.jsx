@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import arrowTop from "../assets/img/arrow-top.svg";
 import arrowBottom from "../assets/img/arrow-bottom.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { setSort } from "../redux/slices/filterSlice";
+import { setSort, setSortBy } from "../redux/slices/filterSlice";
 import { useEffect } from "react";
 import { useRef } from "react";
 
@@ -13,10 +13,11 @@ export const listPopup = [
 ];
 
 const Sort = () => {
+	const sortRef = useRef();
 	const dispatch = useDispatch();
-	const sort = useSelector((state) => state.filter.selectedPopupSort);
 	const [isVisible, setIsVisible] = useState(false);
-	const sortRef = useRef()
+	const [dataLoaded, setDataLoaded] = useState(false);
+	const sort = useSelector((state) => state.filter.selectedPopupSort)
 
 	function handlerSelected(object) {
 		return sort.sort === object.sort ? "active" : "";
@@ -28,9 +29,13 @@ const Sort = () => {
 	}
 
 	useEffect(() => {
+		setDataLoaded(true);
+	}, []);
+
+	useEffect(() => {
 		const handleBodyClick = (e) => {
 			if (e.target.className) {
-				setIsVisible(false)
+				setIsVisible(false);
 			}
 		};
 
@@ -44,8 +49,12 @@ const Sort = () => {
 	return (
 		<div ref={sortRef} className="sort">
 			<div className="sort__label">
-				<img className="img" src={arrowTop} alt="arrowTop" />
-				<img className="img" src={arrowBottom} alt="arrowBottom" />
+				<div className="img">
+					<img onClick={() => dispatch(setSortBy("desc"))} width="20px" src={arrowTop} alt="arrowTop" />
+				</div>
+				<div className="img">
+					<img onClick={() => dispatch(setSortBy("asc"))} width="30px" src={arrowBottom} alt="arrowBottom" />
+				</div>
 				<b>Сортировка по:</b>
 				<span onClick={() => setIsVisible((prev) => !prev)}>{sort.name}</span>
 			</div>

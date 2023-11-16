@@ -3,10 +3,11 @@ import { createSlice } from "@reduxjs/toolkit"
 const initialState = {
   selectedCategoryId: 0,
   currentPage: 1,
-  selectedPopupSort:  {
-		name: "популярности",
-		sort: "rating"
-	}
+  selectedPopupSort: {
+    name: "популярности",
+    sort: "rating"
+  },
+  sortBy: "desc"
 }
 
 const filterSlice = createSlice({
@@ -19,17 +20,21 @@ const filterSlice = createSlice({
     setSort(state, action) {
       state.selectedPopupSort = action.payload
     },
+    setSortBy(state, action) {
+      state.sortBy = action.payload
+    },
     setCurrentPage(state, action) {
       state.currentPage = action.payload
     },
     setFilters(state, action) {
       state.currentPage = +action.payload.currentPage
-      state.selectedCategoryId = +action.payload.selectedCategoryId
-      state.selectedPopupSort = action.payload.selectedPopupSort
+      state.selectedCategoryId = +action.payload.categoryId
+      state.selectedPopupSort = action.payload.sort
+      state.sortBy = action.payload.sortBy
     }
   }
 })
 
-export const { setCategoryId, setSort, setCurrentPage, setFilters } = filterSlice.actions
+export const { setCategoryId, setSort, setCurrentPage, setFilters, setSortBy } = filterSlice.actions
 
 export default filterSlice.reducer
