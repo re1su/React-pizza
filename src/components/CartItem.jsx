@@ -14,7 +14,7 @@ const CartItem = ({ id, title, type, imageUrl, count, price, size }) => {
 	}
 
 	function onClickRemoveItemById(id) {
-		dispatch(removeItem(id))
+		dispatch(removeItem(id));
 	}
 
 	return (
@@ -77,7 +77,10 @@ const CartItem = ({ id, title, type, imageUrl, count, price, size }) => {
 				<b>{price * count} ₽</b>
 			</div>
 			<div className="cart__item-remove">
-				<div onClick={() => onClickRemoveItemById(id)} className="button button--outline button--circle">
+				<div
+					onClick={() => onClickRemoveItemById(id)}
+					className="button button--outline button--circle"
+				>
 					<svg
 						width="10"
 						height="10"
