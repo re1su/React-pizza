@@ -17,10 +17,7 @@ const Sort = () => {
 	const dispatch = useDispatch();
 	const [isVisible, setIsVisible] = useState(false);
 	const [dataLoaded, setDataLoaded] = useState(false);
-	const sort = useSelector((state) => state.filter.selectedPopupSort) || {
-		name: "популярности",
-		sort: "rating",
-	};
+	const sort = useSelector((state) => state.filter.selectedPopupSort)
 
 	function handlerSelected(object) {
 		return sort.sort === object.sort ? "active" : "";

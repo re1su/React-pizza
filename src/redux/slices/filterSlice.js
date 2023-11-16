@@ -29,7 +29,8 @@ const filterSlice = createSlice({
     setFilters(state, action) {
       state.currentPage = +action.payload.currentPage
       state.selectedCategoryId = +action.payload.categoryId
-      state.selectedPopupSort = action.payload.sortProperty
+      state.selectedPopupSort = action.payload.sort
+      state.sortBy = action.payload.sortBy
     }
   }
 })

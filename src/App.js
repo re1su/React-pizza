@@ -1,5 +1,4 @@
 import { createContext, useState } from 'react';
-import './App.css';
 import Header from './components/Header';
 import Cart from './pages/Cart';
 import Home from './pages/Home';

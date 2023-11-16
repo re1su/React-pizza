@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Categories from "../components/Categories";
 import Sort, { listPopup } from "../components/Sort";
 import PizzaBlock from "../components/PizzaBlock/PizzaBlock";
@@ -11,20 +11,19 @@ import qs from "qs";
 import { useNavigate } from "react-router";
 
 const Home = ({ inputValue }) => {
+	const isSearch = useRef(false);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const [pizzaData, setPizzaData] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
-	const [isMounted, setIsMounted] = useState(false)
-	const [isSearch, setIsSearch] = useState(false);
-	const sortBy = useSelector((state) => state.filter.sortBy);
+	const [isMounted, setIsMounted] = useState(false);
 	const pizzas = pizzaData.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
 	const skeletons = [...new Array(8)].map((_, index) => <Skeleton key={index} />);
 	const search = inputValue ? `&search=${inputValue}` : "";
-	const { selectedCategoryId, selectedPopupSort, currentPage } = useSelector(
+	const { selectedCategoryId, selectedPopupSort, currentPage, sortBy } = useSelector(
 		(state) => state.filter
 	);
-	const sortProperty = selectedPopupSort ? selectedPopupSort.sort : "";
+	const sortProperty = selectedPopupSort.sort;
 
 	const setSelectedCategory = (id) => {
 		dispatch(setCategoryId(id));
@@ -50,10 +49,10 @@ const Home = ({ inputValue }) => {
 	}
 
 	useEffect(() => {
-		console.log(window.location.search);
 		if (window.location.search) {
 			const params = qs.parse(window.location.search.substring(1));
 			const sort = listPopup.find((obj) => obj.sort === params.sortProperty);
+			console.log(params, sort);
 
 			dispatch(
 				setFilters({
@@ -62,16 +61,17 @@ const Home = ({ inputValue }) => {
 				})
 			);
 
-			setIsSearch(true);
+			isSearch.current = true;
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	useEffect(() => {
-		if (!isSearch) {
+		if (!isSearch.current) {
 			fetchPizzas();
 		}
 
+		isSearch.current = false;
 		window.scrollTo(0, 0);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [selectedCategoryId, sortProperty, currentPage, search, sortBy]);
@@ -82,12 +82,13 @@ const Home = ({ inputValue }) => {
 				sortProperty: sortProperty,
 				categoryId: selectedCategoryId,
 				currentPage,
+				sortBy,
 			});
-	
+
 			navigate(`?${queryString}`);
 		}
 
-		setIsMounted(true)
+		setIsMounted(true);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [selectedCategoryId, sortProperty, currentPage]);
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../../redux/slices/cartSlice";
 
@@ -26,7 +26,7 @@ const PizzaBlock = ({ id, price, title, imageUrl, sizes, types }) => {
 	return (
 			<div className="pizza-block-container">
 				<div className="pizza-block">
-					<img className="pizza-block__image" src={imageUrl} alt="Pizza" />
+					<img onClick={onClickAdd} className="pizza-block__image" src={imageUrl} alt="Pizza" />
 					<h4 className="pizza-block__title">{title}</h4>
 					<div className="pizza-block__selector">
 						<ul>
